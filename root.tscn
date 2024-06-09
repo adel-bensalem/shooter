@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://cnhx44etga6lv"]
+[gd_scene load_steps=2 format=3 uid="uid://cnhx44etga6lv"]
+
+[ext_resource type="Script" path="res://root.gd" id="1_o8pd6"]
 
 [node name="Root" type="Node2D"]
+process_mode = 3
+script = ExtResource("1_o8pd6")

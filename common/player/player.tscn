@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://common/player/player.gd" id="1_gi2mb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_np1u5"]
+size = Vector2(17, 16)
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_gi2mb")
@@ -11,3 +12,4 @@ script = ExtResource("1_gi2mb")
 shape = SubResource("RectangleShape2D_np1u5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 6)
