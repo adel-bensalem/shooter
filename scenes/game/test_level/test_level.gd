@@ -2,12 +2,15 @@ extends Node2D
 
 @onready var player = $Player
 @onready var spawn_point = $SpawnPoint
+@onready var timer = $Timer
 
 var enemy_scene = preload("res://common/enemy/enemy.tscn")
 var bullet_scene = preload("res://common/bullet/bullet.tscn")
 
 func _ready():
 	spawn_enemy()
+	
+	timer.timeout.connect(on_timeout)
 
 func spawn_enemy():
 	var enemy = enemy_scene.instantiate()
@@ -44,7 +47,6 @@ func on_hit_target(bullet: CharacterBody2D, collision: KinematicCollision2D):
 	
 	if is_enemy(collider):
 		remove_child(collider)
-		spawn_enemy()
 
 func on_enemy_collide(enemy: CharacterBody2D, collision: KinematicCollision2D):
 	var collider = collision.get_collider()
@@ -54,3 +56,6 @@ func on_enemy_collide(enemy: CharacterBody2D, collision: KinematicCollision2D):
 
 func is_enemy(collider: Object):
 	return collider.is_in_group("Enemy")
+
+func on_timeout():
+	spawn_enemy()

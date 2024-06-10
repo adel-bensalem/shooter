@@ -78,3 +78,6 @@ position = Vector2(280, 166)
 
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(60, 43)
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
