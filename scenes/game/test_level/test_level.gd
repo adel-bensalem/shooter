@@ -1,11 +1,26 @@
 extends Node2D
 
 @onready var player = $Player
+@onready var spawn_point = $SpawnPoint
 
+var enemy_scene = preload("res://common/enemy/enemy.tscn")
 var bullet_scene = preload("res://common/bullet/bullet.tscn")
 
 func _ready():
+	spawn_enemy()
+
+func spawn_enemy():
+	var enemy = enemy_scene.instantiate()
+	
+	enemy.target = player
+	enemy.position = spawn_point.global_position
+	
+	enemy.add_to_group("Enemy")
+	enemy.collide.connect(on_enemy_collide)
+	
 	player.shoot.connect(on_shoot)
+	
+	add_child(enemy)
 
 func on_shoot(target: Vector2):
 	var bullet = bullet_scene.instantiate()
@@ -23,4 +38,19 @@ func on_reach_target(bullet: CharacterBody2D):
 	remove_child(bullet)
 
 func on_hit_target(bullet: CharacterBody2D, collision: KinematicCollision2D):
+	var collider = collision.get_collider()
+	
 	remove_child(bullet)
+	
+	if is_enemy(collider):
+		remove_child(collider)
+		spawn_enemy()
+
+func on_enemy_collide(enemy: CharacterBody2D, collision: KinematicCollision2D):
+	var collider = collision.get_collider()
+	
+	if collider == player:
+		get_tree().quit()
+
+func is_enemy(collider: Object):
+	return collider.is_in_group("Enemy")

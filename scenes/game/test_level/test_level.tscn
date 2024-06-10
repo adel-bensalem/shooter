@@ -75,3 +75,6 @@ layer_1/tile_data = PackedInt32Array(0, 0, 0, 28, 131072, 0, 851968, 0, 2, 85199
 
 [node name="Player" parent="." instance=ExtResource("1_aj46c")]
 position = Vector2(280, 166)
+
+[node name="SpawnPoint" type="Marker2D" parent="."]
+position = Vector2(60, 43)
