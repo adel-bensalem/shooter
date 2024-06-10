@@ -6,3 +6,6 @@ resume,Resume,Reprendre
 save,Save,Sauvegarder
 exit,Exit,Quitter
 volume,Volume,Volume
+game_over,Game Over,Game Over
+retry,Retry,Réessayer
+open_main_menu,Main Menu,Menu Principal

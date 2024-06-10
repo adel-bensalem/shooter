@@ -3,6 +3,7 @@ extends Node2D
 enum GameModes {
 	MainMenu,
 	Game,
+	GameOver,
 }
 
 @onready var save_file = $SaveFile
@@ -12,6 +13,7 @@ var main_menu = preload("res://scenes/main_menu/main_menu.tscn")
 var game = preload("res://scenes/game/game.tscn")
 var pause_menu = preload("res://scenes/pause_menu/pause_menu.tscn")
 var options_menu = preload("res://scenes/options_menu/options_menu.tscn")
+var game_over = preload("res://scenes/game_over/game_over.tscn")
 var target = preload("res://target.png")
 var current_game = null
 
@@ -47,6 +49,8 @@ func start_game():
 	
 	current_game = game.instantiate()
 	current_game_mode = GameModes.Game
+	
+	current_game.game_over.connect(on_game_over)
 	
 	add_child(current_game)
 	replace_cursor_with_target()
@@ -107,3 +111,17 @@ func replace_cursor_with_target():
 
 func reset_cursor():
 	Input.set_custom_mouse_cursor(null)
+
+func on_game_over():
+	for child in get_children():
+		remove_child(child)
+	
+	current_game = game_over.instantiate()
+	current_game_mode = GameModes.GameOver
+	
+	current_game.retry.connect(start_game)
+	current_game.open_main_menu.connect(start_main_menu)
+	current_game.exit.connect(exit_game)
+	
+	add_child(current_game)
+	reset_cursor()

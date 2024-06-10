@@ -1,5 +1,7 @@
 extends Node2D
 
+signal game_over
+
 @onready var player = $Player
 @onready var spawn_point = $SpawnPoint
 @onready var timer = $Timer
@@ -52,7 +54,7 @@ func on_enemy_collide(enemy: CharacterBody2D, collision: KinematicCollision2D):
 	var collider = collision.get_collider()
 	
 	if collider == player:
-		get_tree().quit()
+		game_over.emit()
 
 func is_enemy(collider: Object):
 	return collider.is_in_group("Enemy")
