@@ -4,6 +4,8 @@ signal shoot(pos: Vector2)
 
 const SPEED = 300.0
 
+@onready var gun_position = $GunPosition
+
 var is_flipped = false
 
 func _physics_process(delta):
@@ -24,5 +26,10 @@ func _physics_process(delta):
 		shoot.emit(get_viewport().get_mouse_position())
 		
 	velocity = velocity.normalized() * SPEED
+	
+	look_at(get_global_mouse_position())
 
 	move_and_slide()
+
+func get_gun_pos():
+	return gun_position.global_position

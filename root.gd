@@ -12,7 +12,7 @@ var main_menu = preload("res://scenes/main_menu/main_menu.tscn")
 var game = preload("res://scenes/game/game.tscn")
 var pause_menu = preload("res://scenes/pause_menu/pause_menu.tscn")
 var options_menu = preload("res://scenes/options_menu/options_menu.tscn")
-var target = load("res://target.png")
+var target = preload("res://target.png")
 var current_game = null
 
 func _ready():
