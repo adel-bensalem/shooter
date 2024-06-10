@@ -26,4 +26,3 @@ func _physics_process(delta):
 	velocity = velocity.normalized() * SPEED
 
 	move_and_slide()
-

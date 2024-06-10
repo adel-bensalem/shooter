@@ -1,7 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnhx44etga6lv"]
+[gd_scene load_steps=3 format=3 uid="uid://cnhx44etga6lv"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_o8pd6"]
+[ext_resource type="PackedScene" uid="uid://l8x0nf64jbbq" path="res://scenes/save_file/save_file.tscn" id="2_ant1g"]
 
 [node name="Root" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_o8pd6")
+
+[node name="SaveFile" parent="." instance=ExtResource("2_ant1g")]

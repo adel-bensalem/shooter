@@ -3,19 +3,20 @@ extends Node2D
 enum GameModes {
 	MainMenu,
 	Game,
-	PauseMenu
 }
 
+@onready var save_file = $SaveFile
+
 var current_game_mode = GameModes.MainMenu
-var loaded_save = {}
 var main_menu = preload("res://scenes/main_menu/main_menu.tscn")
 var game = preload("res://scenes/game/game.tscn")
 var pause_menu = preload("res://scenes/pause_menu/pause_menu.tscn")
 var options_menu = preload("res://scenes/options_menu/options_menu.tscn")
+var target = load("res://target.png")
 var current_game = null
 
 func _ready():
-	load_game()
+	save_file.load_save()
 	start_main_menu()
 
 func _unhandled_key_input(event):
@@ -34,9 +35,11 @@ func start_main_menu():
 	current_game_mode = GameModes.MainMenu
 	
 	add_child(current_game)
+	reset_cursor()
 	
 	current_game.start.connect(start_game)
 	current_game.open_options.connect(open_options)
+	current_game.exit.connect(exit_game)
 
 func start_game():
 	for child in get_children():
@@ -46,28 +49,13 @@ func start_game():
 	current_game_mode = GameModes.Game
 	
 	add_child(current_game)
-
-func load_game():
-	if not FileAccess.file_exists("user://shooter.save"):
-		return
-
-	var save_game = FileAccess.open("user://shooter.save", FileAccess.READ)
-	
-	while save_game.get_position() < save_game.get_length():
-		var json_string = save_game.get_line()
-		var json = JSON.new()
-		var parse_result = json.parse(json_string)
-		
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-
-		loaded_save = json.get_data()
+	replace_cursor_with_target()
 
 func pause():
 	var pm = pause_menu.instantiate()
 	
 	add_child(pm)
+	reset_cursor()
 	get_tree().paused = true
 	
 	pm.resume.connect(un_pause)
@@ -81,35 +69,26 @@ func un_pause():
 	if !!pm:
 		remove_child(pm)
 	
+	replace_cursor_with_target()
 	get_tree().paused = false
 
 func open_options():
 	var options = options_menu.instantiate()
 	
-	if loaded_save.has("volume"):
-		options.volume = loaded_save["volume"]
-	
+	options.volume = save_file.get_save_data("volume", 100)
+
 	options.save.connect(save_options)
 	options.exit.connect(exit_options)
 	
 	add_child(options)
+	reset_cursor()
 
 func save_options():
 	var options = get_node("OptionsMenu")
-	var save_game = FileAccess.open("user://shooter.save", FileAccess.WRITE)
 	
 	if !!options:
-		var save_dict = {}
-		
-		save_dict.merge(loaded_save)
-		save_dict.merge({ "volume": options.volume }, true)
-		save_game.store_line(JSON.stringify(save_dict))
-		loaded_save = save_dict
-		
+		save_file.save({ "volume": options.volume })
 		remove_child(options)
-		
-		if current_game_mode == GameModes.Game:
-			current_game.volume = options.volume
 
 func exit_options():
 	var options = get_node("OptionsMenu")
@@ -117,9 +96,14 @@ func exit_options():
 	if !!options:
 		remove_child(options)
 
-
 func save_game():
 	pass
 
 func exit_game():
 	get_tree().quit()
+
+func replace_cursor_with_target():
+	Input.set_custom_mouse_cursor(target)
+
+func reset_cursor():
+	Input.set_custom_mouse_cursor(null)
