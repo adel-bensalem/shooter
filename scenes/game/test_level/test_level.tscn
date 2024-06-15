@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cukyt017s0bg4"]
+[gd_scene load_steps=7 format=3 uid="uid://cukyt017s0bg4"]
 
 [ext_resource type="PackedScene" uid="uid://dkid8tmijup4m" path="res://common/player/player.tscn" id="1_aj46c"]
 [ext_resource type="Script" path="res://scenes/game/test_level/test_level.gd" id="1_e3qj2"]
 [ext_resource type="Texture2D" uid="uid://6rfmaxob23qj" path="res://scenes/game/test_level/map.png" id="2_2laha"]
+[ext_resource type="PackedScene" uid="uid://b6ymeqvwjsxuw" path="res://common/hud/hud.tscn" id="4_o1whm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3chux"]
 texture = ExtResource("2_2laha")
@@ -79,5 +80,10 @@ position = Vector2(280, 166)
 [node name="SpawnPoint" type="Marker2D" parent="."]
 position = Vector2(60, 43)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="SpawnTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="HUD" parent="." instance=ExtResource("4_o1whm")]

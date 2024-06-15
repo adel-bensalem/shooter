@@ -5,6 +5,7 @@ signal hit_target(bullet: CharacterBody2D, collision: KinematicCollision2D)
 
 @export var speed: int = 100
 @export var target: Vector2 = Vector2.ZERO
+@export var damage: float = 10
 
 var initial_position = Vector2.ZERO
 
@@ -26,3 +27,6 @@ func has_reached_target():
 	var has_gone_beyond_y = (target.y <= position.y) if direction.y < 0 else (target.y >= position.y)
 	
 	return has_gone_beyond_x && has_gone_beyond_y
+
+func get_attack_damage():
+	return damage

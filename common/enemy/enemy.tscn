@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://m8pk3046l8k6"]
+[gd_scene load_steps=5 format=3 uid="uid://m8pk3046l8k6"]
 
 [ext_resource type="Script" path="res://common/enemy/enemy.gd" id="1_ewsu0"]
 [ext_resource type="Texture2D" uid="uid://cjm6spgsu2ny0" path="res://icon.svg" id="1_wgtgn"]
+[ext_resource type="PackedScene" uid="uid://dphonhl5srxks" path="res://common/health_bar/health_bar.tscn" id="2_e5b1u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gae2o"]
 size = Vector2(50.5, 52)
@@ -10,6 +11,10 @@ size = Vector2(50.5, 52)
 collision_layer = 4
 collision_mask = 11
 script = ExtResource("1_ewsu0")
+
+[node name="HealthBar" parent="." instance=ExtResource("2_e5b1u")]
+visible = false
+position = Vector2(-15, -39)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, 1)
